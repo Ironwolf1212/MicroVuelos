@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vuelos-deployment
+spec:
+  selector:
+    matchLabels:
+        app: vuelos-selector
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: vuelos-selector
+    spec:
+      containers:
+        - name: vuelos-container
+          image: ironwolf1212/microvuelos:0.0.1
+          ports:
+          - containerPort: 3001
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vuelos-service
+spec:   
+  selector:
+    app: vuelos-selector
+  ports:
+  - port: 3001
+    protocol: TCP
+    targetPort: 3001
